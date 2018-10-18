@@ -12,3 +12,16 @@ Sample output:
 2. http://www.example.org/example/ - 1000 - 24%                
 3. http://www.example.org/example/genx/docs/Guide.html -  91 - 2%                                                        
 ```
+#! /bin/bash  
+lines=$(cut -f10,11 -d" " log.txt | grep -v '"-"' 	| sort -t" " -k1   | sort --reverse -k1 -n |wc -l);
+echo $lines;
+
+liness=$(cut -f10,11 -d" " log.txt | grep -v '"-"' 	| sort -t" " -k1   | sort --reverse -k1 -n | head);
+
+for i in  $liness;
+do 
+
+	if [[ $i =~ ^[0-9]+$ ]]; then
+	printf "$i -  0$(echo "scale=1; $i / $lines" | bc)%%" ;
+  	else printf " - $i \n"; fi 
+done
